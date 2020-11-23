@@ -9,9 +9,9 @@
         </ul>
 
         <v-menu v-else :title="user.name">
-          <dropdown-item><a href="#" class="dropdown-item">我的文章</a></dropdown-item>
-          <dropdown-item><a href="#" class="dropdown-item">创作中心</a></dropdown-item>
-          <dropdown-item><a href="#" class="dropdown-item">退出登录</a></dropdown-item>
+            <dropdown-item><a href="#" class="dropdown-item">我的文章</a></dropdown-item>
+            <dropdown-item><a href="#" class="dropdown-item">创作中心</a></dropdown-item>
+            <dropdown-item><a href="#" class="dropdown-item">退出登录</a></dropdown-item>
         </v-menu>
     </nav>
 </template>
@@ -19,7 +19,7 @@
 <script lang="ts">
 import { defineComponent, PropType, ref } from 'vue'
 import { IUserProps } from '@/interface/user.ts'
-import VMenu from '@/components/Menu/menu.vue'
+import VMenu from '@/components/Menu/menu.vue' // 名字不能用menu，会跟现有标签冲突
 import dropdownItem from '@/components/Menu/dropdownItem.vue'
 
 export default defineComponent({
@@ -31,8 +31,8 @@ export default defineComponent({
         }
     },
     components: {
-      VMenu,
-      dropdownItem
+        VMenu,
+        dropdownItem
     }
 })
 </script>
