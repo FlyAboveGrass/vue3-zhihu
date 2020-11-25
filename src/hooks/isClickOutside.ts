@@ -3,7 +3,6 @@ import { onMounted, onUnmounted, ref, Ref } from 'vue'
 const isClickOutside = (elemenRef: Ref<null | HTMLElement>) => {
     const isOutside = ref(true)
     const  handler = (e: MouseEvent) => {
-        console.log('🚀 ~ file: isClickOutside.ts ~ line 7 ~ handler ~ elemenRef.value', elemenRef.value)
         if (elemenRef.value) {
             // 1、contains方法  2、e.target是一个事件目标，必须使用类型断言转变成 HTMLElement
             if (elemenRef.value.contains(e.target as HTMLElement)) {
