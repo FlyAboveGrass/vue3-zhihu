@@ -1,19 +1,15 @@
 <template>
 <global-header :user="currentUser"></global-header>
-  <form>
-    <validate-input :label="email.label" :rules="email.rules" :type="email.type"></validate-input>
-    <validate-input label="密码" :rules="email.rules" type="password"></validate-input>
-    <div class="form-group">
-      <label for="exampleInputPassword1">Password</label>
-      <input type="password" class="form-control" id="exampleInputPassword1">
-    </div>
-    <div class="form-group form-check">
-      <input type="checkbox" class="form-check-input" id="exampleCheck1">
-      <label class="form-check-label" for="exampleCheck1">Check me out</label>
-    </div>
-    <button type="submit" class="btn btn-primary">Submit</button>
-  </form>
-
+  // 父子组件传值
+  <validate-form @form-submit="validateForm">
+    <template #default>
+      <validate-input :label="email.label" :rules="email.rules" :type="email.type" placeholder="请输入邮箱"></validate-input>
+      <validate-input label="密码" :rules="email.rules" type="password"  placeholder="请输入密码"></validate-input>
+    </template>
+    <template v-slot:submit>
+      <button type="submit" class="btn btn-primary">确定</button>
+    </template>
+  </validate-form>
   <br><br><br><br><br>
   <div class="container-fluid px-10 py-10">
     <column-list :list="list"></column-list>
@@ -28,7 +24,8 @@ import  { IColumnProps } from '@/interface/column.ts'
 import ColumnList from '@/components/ColumnList.vue'
 import { IUserProps } from '@/interface/user.ts'
 import GlobalHeader from '@/components/GlobalHeader.vue'
-import ValidateInput from '@/components/validateInput.vue'
+import ValidateInput from '@/components/form/validateInput.vue'
+import ValidateForm from '@/components/form/validate-form.vue'
 
 const currentUser: IUserProps = {
   _id: '1',
@@ -40,7 +37,8 @@ export default defineComponent({
   components: {
     GlobalHeader,
     ColumnList,
-    ValidateInput
+    ValidateInput,
+    ValidateForm
   },
   setup () {
     const email = reactive({
@@ -51,26 +49,8 @@ export default defineComponent({
         { type: 'email', message: '邮箱格式不正确' }
       ]
     })
-    const emailInput = reactive({
-      value: '',
-      error: false,
-      message: ''
-    })
-    const validateEmail = () => {
-      const emailReg = /^[a-zA-Z0-9_-]+@[a-zA-z0-9_-]+(\.[a-zA-Z0-9-_]+)+$/
-      if (emailInput.value.trim() === '') {
-        emailInput.error = true
-        emailInput.message = '邮箱地址不能为空'
-        return false
-      }
-      if (!emailReg.test(emailInput.value)) {
-        emailInput.error = true
-        emailInput.message = '邮箱地址格式不正确'
-        return false
-      }
-      emailInput.error = false
-      emailInput.message = ''
-      return true
+    const validateForm = (result = false) => {
+      console.log('validate', result)
     }
     const list: Array<IColumnProps> = [
       { _id: '1', title: 'aaa', description: 'delights' },
@@ -80,8 +60,7 @@ export default defineComponent({
     ]
     return {
       email,
-      emailInput,
-      validateEmail,
+      validateForm,
       currentUser,
       list
     }

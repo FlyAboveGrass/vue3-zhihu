@@ -1,13 +1,15 @@
 <template>
-    <div class="form-group">
-        <label>{{label}}</label>
-        <input :type="type" :placeholder="placeholder" class="form-control" :class="[inputRef.error ? 'is-invalid' : 'is-valid']" v-model="inputRef.value" @blur="validateInput">
+    <div class="form-group mb-3">
+        <label>{{label}}:</label>
+        <!-- 外部传入的属性将通过 $attrs 默认的传递到input -->
+        <input :type="type" v-bind="$attrs" class="form-control" :class="[inputRef.error ? 'is-invalid' : '']" v-model="inputRef.value" @blur="validateInput">
         <div v-if="inputRef.error" class="invalid-feedback">{{inputRef.message}}</div>
     </div>
 </template>
 
 <script lang="ts">
-import { reactive, defineComponent, PropType } from 'vue'
+import { reactive, defineComponent, PropType, onMounted } from 'vue'
+import {emitter, validateFunc} from './validate-form.vue'
 
 const emailReg = /^[a-zA-Z0-9_-]+@[a-zA-z0-9_-]+(\.[a-zA-Z0-9-_]+)+$/
 export interface RuleProp {
@@ -19,6 +21,7 @@ export default defineComponent ({
         return {
         }
     },
+    inheritAttrs: false, // 从父组件获取的attr将不会默认绑定到这个组件的根元素
     props: {
         type: {
             requied: false,
@@ -33,11 +36,7 @@ export default defineComponent ({
             requied: false,
             type: String,
             default: ''
-        },
-        placeholder: {
-            requied: false,
-            type: String
-        },
+        },  
         rules: Array as PropType<RuleProp[]>
     },
     methods: {
@@ -49,7 +48,7 @@ export default defineComponent ({
             error: false,
             message: ''
         })
-        const validateInput = () => {
+        const validateInput: validateFunc = () => {
             if (!props.rules) {
                 return true
             }
@@ -69,9 +68,11 @@ export default defineComponent ({
                 return validate
             })
             inputRef.error = !Access
-            console.log('error ,message', inputRef.error, inputRef.message)
             return Access
         }
+        onMounted(() => {
+            emitter.emit('input-ready', validateInput)
+        })
         return {
             inputRef,
             validateInput
