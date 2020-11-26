@@ -6,7 +6,7 @@
             <img :src="item.avatar.url" alt="">
             <h2>{{item.title}}</h2>
             <p>{{item.description}}</p>
-            <button class="btn btn-primary">进入专栏</button>
+            <router-link :to="`/column/${item._id}`" class="btn btn-primary">进入专栏</router-link>
           </div>
         </div>
       </div>
