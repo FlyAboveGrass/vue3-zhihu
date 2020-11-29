@@ -17,6 +17,10 @@ const routes: Array<RouteRecordRaw> = [
         path: '/',
         redirect: '/home'
     },
+    {
+        path: '/create',
+        component: () => import('@/views/artile/create.vue')
+    }
 ]
 const router = createRouter({
     history: createWebHashHistory(),

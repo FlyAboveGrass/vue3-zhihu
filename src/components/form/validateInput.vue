@@ -1,8 +1,10 @@
 <template>
-    <div class="form-group mb-3">
-        <label>{{label}}:</label>
+    <div class="form-group mb-4 row">
+        <label class="col-sm-3 col-form-label">{{label}}:</label>
         <!-- 外部传入的属性将通过 $attrs 默认的传递到input -->
-        <input :type="type" v-bind="$attrs" class="form-control" :class="[inputRef.error ? 'is-invalid' : '']" v-model="inputRef.value" @blur="validateInput">
+        <div class="col-sm-9">
+            <input :type="type" v-bind="$attrs" class="form-control" :class="[inputRef.error ? 'is-invalid' : '']" v-model="inputRef.value" @blur="validateInput">
+        </div>
         <div v-if="inputRef.error" class="invalid-feedback">{{inputRef.message}}</div>
     </div>
 </template>

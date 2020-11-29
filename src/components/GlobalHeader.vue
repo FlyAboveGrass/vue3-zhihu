@@ -1,6 +1,6 @@
 <template>
 
-    <nav class="navbar navbar-dark bg-primary mb-4 justify-content-between px-5">
+    <nav class="navbar navbar-dark bg-primary justify-content-between px-5">
         <a class="navbar-brand mx-5" href="#">知乎</a>
 
         <ul v-if="!userInfo.isLogin" class="list-inline mb-0  mx-2">

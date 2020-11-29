@@ -14,6 +14,7 @@ module.exports = {
   rules: {
     'indent':['off',2],  // 关闭缩进检查
     'no-multi-spaces': 'off', // 关闭多空格检查
+    '@typescript-eslint/no-var-requires': 0,
     'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off'
   }

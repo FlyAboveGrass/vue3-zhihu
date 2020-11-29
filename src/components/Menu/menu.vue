@@ -1,6 +1,6 @@
 <template>
   <div class="dropdown">
-    <button @click="showMenuItem()" class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    <button @click="showMenuItem()" class="btn btn-outline-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
       {{title}}
     </button>
     <ul class="dropdown-menu" ref="dropdown" :class="{ 'show': dropItemVisible }" aria-labelledby="dropdownMenuButton">
@@ -48,5 +48,9 @@
 <style scoped>
   .dropdown-menu{
     min-width: 5rem;
+  }
+  .btn-outline-primary {
+    color: #fff;
+    border-color: #fff;
   }
 </style>

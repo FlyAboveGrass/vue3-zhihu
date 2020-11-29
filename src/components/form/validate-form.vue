@@ -3,7 +3,7 @@
         <slot name="default"></slot>
         <div class="submit" @click.prevent="submitForm">
             <slot name="submit">
-                <button type="submit" class="btn btn-primary">确定</button>
+                <button type="submit" class="btn btn-primary btn-block btn-large">确定</button>
             </slot>
         </div>
     </form>
