@@ -9,9 +9,9 @@
         </ul>
 
         <v-menu v-else :title="userInfo.name">
-            <dropdown-item><a href="#" class="dropdown-item">我的文章</a></dropdown-item>
-            <dropdown-item><a href="#" class="dropdown-item">创作中心</a></dropdown-item>
-            <dropdown-item><a href="#" class="dropdown-item">退出登录</a></dropdown-item>
+            <dropdown-item><router-link tag="a" :to="`/column/${userInfo.columnId}`" class="dropdown-item">我的文章</router-link></dropdown-item>
+            <dropdown-item><router-link tag="a" :to="`/column/${userInfo.columnId}`" class="dropdown-item">创作中心</router-link></dropdown-item>
+            <dropdown-item><router-link tag="a" :to="`/column/${userInfo.columnId}`" class="dropdown-item">退出登录</router-link></dropdown-item>
         </v-menu>
     </nav>
 </template>
