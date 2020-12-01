@@ -5,7 +5,9 @@
   <div class="content">
     <router-view></router-view>
   </div>
-  
+  <div class="footer mt-3">
+    <v-footer></v-footer>
+  </div>
 </template>
 
 <script lang="ts">
@@ -13,12 +15,13 @@ import { defineComponent, reactive } from 'vue'
 import './assets/css/reset.css' // 引入reset.css初始化样式
 import 'bootstrap/dist/css/bootstrap.css' // 引入bootstrap样式
 import GlobalHeader from '@/components/GlobalHeader.vue'
+import VFooter from '@/components/footer/footer.vue'
 
 export default defineComponent({
   name: 'App',
   components: {
-    GlobalHeader
-    
+    GlobalHeader,
+    VFooter
   },
   setup () {
     

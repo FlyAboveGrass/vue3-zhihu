@@ -4,7 +4,7 @@ enum Api {
     CHECK_LOGIN = '/api/user/current',
     USER_REGISTER = '/api/users',
     UPLOAD = '/api/upload',
-    ADD_ARTICLE = '/api/posts'
+    ARTICLE = '/api/posts'
 }
 
 export default Api

@@ -19,7 +19,11 @@ const routes: Array<RouteRecordRaw> = [
     },
     {
         path: '/create',
-        component: () => import('@/views/artile/create.vue')
+        component: () => import('@/views/article/create.vue')
+    },
+    {
+        path: '/article/detail/:id',
+        component: () => import('@/views/article/detail.vue')
     }
 ]
 const router = createRouter({
