@@ -5,7 +5,7 @@
   <div class="content">
     <router-view></router-view>
   </div>
-  <div class="footer mt-3">
+  <div class="footer">
     <v-footer></v-footer>
   </div>
 </template>
@@ -48,5 +48,10 @@ export default defineComponent({
 }
 .content{
   width: 100vw;
+  min-height: calc(100vh - 9rem);
+}
+.footer{
+  height: 4.5rem;
+  margin-top: 1rem
 }
 </style>

@@ -1,4 +1,5 @@
 import { createRouter, createWebHashHistory, RouteRecordRaw } from 'vue-router'
+import { useStore } from 'vuex'
 
 const routes: Array<RouteRecordRaw> = [
     {
@@ -29,6 +30,20 @@ const routes: Array<RouteRecordRaw> = [
 const router = createRouter({
     history: createWebHashHistory(),
     routes
+})
+
+const store = useStore()
+
+
+router.beforeEach((to, from, next) => {
+    console.log('to', to)
+    console.log('from', from)
+    console.log('file: router.ts ~ line 36 ~ store', store);
+    if(to.path === '/create') {
+        next()
+    }else {
+        next()
+    }
 })
 
 export default router
