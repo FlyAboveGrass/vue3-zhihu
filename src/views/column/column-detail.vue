@@ -2,7 +2,7 @@
     <div class="container w-75 mx-auto">
         <div class="column-header py-4 row border-bottom">
             <div class="col-3">
-                <img class="rounded-circle rounded-circle border border-light w-50" :src="currentUser.avatar && currentUser.avatar.url">
+                <img class="rounded-circle rounded-circle border border-light w-50" :src="currentUser && currentUser.avatar && currentUser.avatar.url">
             </div>
             <div class="col-9">
                 <h2 class="pt-2">{{currentUser.title}}</h2>

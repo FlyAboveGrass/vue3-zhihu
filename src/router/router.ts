@@ -32,18 +32,10 @@ const router = createRouter({
     routes
 })
 
-const store = useStore()
-
-
-router.beforeEach((to, from, next) => {
-    console.log('to', to)
-    console.log('from', from)
-    console.log('file: router.ts ~ line 36 ~ store', store);
-    if(to.path === '/create') {
-        next()
-    }else {
-        next()
-    }
-})
+// const store = useStore()
+// // 路由导航守卫
+// router.beforeEach((to, from, next) => {
+//     console.log('to', to)
+// })
 
 export default router

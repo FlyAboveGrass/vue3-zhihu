@@ -8,26 +8,35 @@
   <div class="footer">
     <v-footer></v-footer>
   </div>
+
+  <v-spinner :isLoading="isLoading"></v-spinner>
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive } from 'vue'
+import { computed, defineComponent, reactive } from 'vue'
 import './assets/css/reset.css' // 引入reset.css初始化样式
 import 'bootstrap/dist/css/bootstrap.css' // 引入bootstrap样式
 import GlobalHeader from '@/components/GlobalHeader.vue'
 import VFooter from '@/components/footer/footer.vue'
+import VSpinner from '@/components/spinner/spinner.vue'
+import { useStore } from 'vuex'
 
 export default defineComponent({
   name: 'App',
   components: {
     GlobalHeader,
-    VFooter
+    VFooter,
+    VSpinner
   },
   setup () {
-    
+    const store = useStore()
+
+    const isLoading = computed(() => {
+      return store.state.isLoading
+    })
     
     return {
-      
+      isLoading
     }
   }
 })

@@ -10,7 +10,7 @@ const request = axios.create({
 })
 
 request.interceptors.request.use((config: any) => {
-  store.commit('setIsLoading', true)
+  store.commit('setLoading', true)
   // 统一接口登录管理
   config.params = {
     ...config.params,
@@ -34,7 +34,7 @@ request.interceptors.request.use((config: any) => {
 
 request.interceptors.response.use(
   (response: any) => {
-    store.commit('setIsLoading', false)
+    store.commit('setLoading', false)
     const data = response.data
     if (data.code === 0) {
       return data.data

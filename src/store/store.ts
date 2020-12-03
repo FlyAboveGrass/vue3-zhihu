@@ -35,6 +35,15 @@ export default createStore<StoreProps>({
         },
         setColumnDetail(state, list) {
             state.columnDetail = list
+        },
+        setLoading(state, loading: boolean) {
+            if(loading){
+                state.isLoading = loading
+            }else{
+                setTimeout(() => {
+                    state.isLoading = loading
+                }, 1000)
+            }
         }
     },
     actions: {
