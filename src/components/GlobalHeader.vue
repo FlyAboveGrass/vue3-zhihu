@@ -8,10 +8,11 @@
             <li class="list-inline-item"><router-link to="/registry" tag="a" class="btn btn-outline-light my-2 my-sm-0 mx-2" type="submit">注册</router-link></li>
         </ul>
 
-        <v-menu v-else :title="userInfo.name">
+        
+        <v-menu v-else :title="userInfo.nickName">
             <dropdown-item><router-link tag="a" :to="`/column/${userInfo.columnId}`" class="dropdown-item">我的文章</router-link></dropdown-item>
             <dropdown-item><router-link tag="a" :to="`/column/${userInfo.columnId}`" class="dropdown-item">创作中心</router-link></dropdown-item>
-            <dropdown-item><router-link tag="a" :to="`/column/${userInfo.columnId}`" class="dropdown-item">退出登录</router-link></dropdown-item>
+            <dropdown-item><a class="dropdown-item" @click="logOut()">退出登录</a></dropdown-item>
         </v-menu>
     </nav>
 </template>
@@ -33,10 +34,13 @@ export default defineComponent({
     },
     setup() {
         const store = useStore()
-        console.log('🚀 ~ file: GlobalHeader.vue ~ line 39 ~ setup ~ store', store)
+        const logOut = () => {
+            store.commit('logOut')
+        }
         const userInfo = computed(() => store.state.userInfo)
         return {
-            userInfo
+            userInfo,
+            logOut
         }
     }
 })

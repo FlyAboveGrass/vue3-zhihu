@@ -27,7 +27,6 @@ export default defineComponent({
     },
     setup (props) {
       const columnList =  computed(() => {
-        console.log('props.list', props.list)
         return props.list.map((item) => {
           if (!item.avatar) {
             item.avatar = {

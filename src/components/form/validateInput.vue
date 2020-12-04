@@ -10,7 +10,7 @@
 </template>
 
 <script lang="ts">
-import { reactive, defineComponent, PropType, onMounted } from 'vue'
+import { reactive, defineComponent, PropType, onMounted, computed } from 'vue'
 import {emitter, validateFunc} from './validate-form.vue'
 
 const emailReg = /^[a-zA-Z0-9_-]+@[a-zA-z0-9_-]+(\.[a-zA-Z0-9-_]+)+$/
@@ -35,18 +35,19 @@ export default defineComponent ({
             type: String
         },
         modelValue: {
-            requied: false,
-            type: String,
-            default: ''
+            requied: true,
+            type: String
         },  
         rules: Array as PropType<RuleProp[]>
     },
-    methods: {
-
-    },
-    setup (props) {
+    setup (props, context) {
         const inputRef = reactive({
-            value: props.modelValue,
+            value: computed({
+                get: () => props.modelValue || '', 
+                set: val => {
+                    context.emit('update:modelValue', val)
+                }
+            }),
             error: false,
             message: ''
         })

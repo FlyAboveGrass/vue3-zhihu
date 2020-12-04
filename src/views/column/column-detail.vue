@@ -5,8 +5,8 @@
                 <img class="rounded-circle rounded-circle border border-light w-50" :src="currentUser && currentUser.avatar && currentUser.avatar.url">
             </div>
             <div class="col-9">
-                <h2 class="pt-2">{{currentUser.title}}</h2>
-                <p class="text-muted">{{currentUser.description}}</p>
+                <h2 class="pt-2">{{currentUser && currentUser.title}}</h2>
+                <p class="text-muted">{{currentUser && currentUser.description}}</p>
             </div>
         </div>
         <article v-for="item of articleList" :key="item._id" class="card mt-4 shadow-sm text-left">

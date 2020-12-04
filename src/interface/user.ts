@@ -1,6 +1,5 @@
 export interface IUserProps {
   isLogin: boolean;
-  name?: string;
   nickName?: string;
   _id: string;
   columnId: string;

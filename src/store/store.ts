@@ -3,6 +3,8 @@ import { IUserProps } from '@/interface/user.ts'
 import { IColumnDetailProps, IColumnProps } from '@/interface/column'
 import { getArticleList, getColumnList } from '@/api/column'
 import { PageProps } from '@/interface'
+import { checkLogin, userLogin } from '@/api/user'
+import { resolveComponent } from 'vue'
 
 export interface StoreProps {
     isLoading: boolean;
@@ -17,19 +19,16 @@ export default createStore<StoreProps>({
         isLoading: false,
         userInfo: {
             // todo: 暂时改成登录正太
-            isLogin: true,
-            name: 'yjdh',
-            _id: '1',
-            columnId: '1'
+            isLogin: false,
+            nickName: '',
+            _id: '',
+            columnId: ''
         },
         userToken: '',
         columnList: [],
         columnDetail: []
     },
     mutations: {
-        login: (state) => {
-            state.userInfo = Object.assign(state.userInfo, {isLogin: true, name: 'yjj', _id: '1'})
-        },
         setColumnList(state, list) {
             state.columnList = list
         },
@@ -44,6 +43,22 @@ export default createStore<StoreProps>({
                     state.isLoading = loading
                 }, 1000)
             }
+        },
+        setUserInfo(state, user: IUserProps){
+            state.userInfo = user
+        },
+        setToken: (state, token) => {
+            state.userToken = token || null;
+        },
+        logOut(state) {
+            state.userInfo = {
+                // todo: 暂时改成登录正太
+                isLogin: false,
+                nickName: '',
+                _id: '',
+                columnId: ''
+            }
+            localStorage.removeItem('zhihu-token')
         }
     },
     actions: {
@@ -55,9 +70,21 @@ export default createStore<StoreProps>({
         async getArticleList({commit}, {columnId = '', currentPage = 1, pageSize = 5 }) {
             if(columnId) {
                 const result = await getArticleList(columnId, currentPage, pageSize)
-                console.log('file: store.ts ~ line 49 ~ getArticleList ~ result', result);
                 commit('setColumnDetail', result.list)
             }
+        },
+        async userLogin({commit}, {email, password}) {
+            const { token } = await userLogin({email, password})
+            console.log('token', token)
+            localStorage.setItem('zhihu-token', token)
+            commit('setToken', token)
+
+            const currentUser: IUserProps = await checkLogin()
+            if(currentUser) {
+                commit('setUserInfo', Object.assign(currentUser, { isLogin: true}))
+                return true
+            }
+            return false
         }
     }
 })

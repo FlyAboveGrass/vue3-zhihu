@@ -7,8 +7,8 @@
             <!-- 父子组件传值 -->
             <validate-form @form-submit="validateForm">
                 <template #default>
-                    <validate-input :label="email.label" :rules="email.rules" type="text" placeholder="请输入邮箱"></validate-input>
-                    <validate-input label="密码" :rules="password.rules" type="password"  placeholder="请输入密码"></validate-input>
+                    <validate-input v-model="email.value" :label="email.label" :rules="email.rules" type="text" placeholder="请输入邮箱"></validate-input>
+                    <validate-input v-model="password.value" label="密码" :rules="password.rules" type="password"  placeholder="请输入密码"></validate-input>
                 </template>
                 <template v-slot:submit>
                     <button type="submit" class="btn btn-primary btn-block btn-large mt-4">确定</button>
@@ -51,6 +51,7 @@ export default defineComponent ({
         const store = useStore()
         const email = reactive({
             label: '邮箱',
+            value: '',
             rules: [
                 { type: 'required', message: '邮箱必输'},
                 { type: 'email', message: '邮箱格式不正确' }
@@ -58,17 +59,30 @@ export default defineComponent ({
         })
         const password = reactive({
             label: '密码',
+            value: '',
             rules: [
                 { type: 'required', message: '邮箱必输'}
             ]
         })
         
         const validateForm = (result = false) => {
-            console.log('validate', result)
-            if (result) {
-                router.push({ path: '/'});
-                store.commit('login')
+            console.log('validate login result', result)
+            if (!result) {
+                alert('校验失败')
+                return 
             }
+            store.dispatch('userLogin', {
+                email: email.value,
+                password: password.value
+            }).then((result: boolean) => {
+                if(result) {
+                    console.log('登陆成功，跳转主页')
+                    router.push({ path: '/'})
+                }else{
+                    console.log('登陆失败')
+                }
+            })
+            
         }
         return {
             email,

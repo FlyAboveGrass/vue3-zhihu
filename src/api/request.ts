@@ -24,7 +24,7 @@ request.interceptors.request.use((config: any) => {
       icode
     }
   }
-  const token = localStorage.getItem('token')
+  const token = localStorage.getItem('zhihu-token')
   if (token) {
     config.headers['Authorization'] = `Bearer ${token}`
   }
