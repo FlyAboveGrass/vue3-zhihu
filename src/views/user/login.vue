@@ -34,6 +34,7 @@ import ValidateInput from '@/components/form/validateInput.vue'
 import ValidateForm from '@/components/form/validate-form.vue'
 import { useRouter } from 'vue-router'
 import { useStore } from 'vuex'
+import $message from '@/components/message/createMessage'
 
 export default defineComponent ({
     props: {
@@ -77,6 +78,7 @@ export default defineComponent ({
             }).then((result: boolean) => {
                 if(result) {
                     console.log('登陆成功，跳转主页')
+                    $message('登陆成功')
                     router.push({ path: '/'})
                 }else{
                     console.log('登陆失败')

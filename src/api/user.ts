@@ -16,3 +16,11 @@ export function checkLogin(): Promise<IUserProps> {
         method: 'get'
     })
 }
+
+export function userRegister(data: { email: string; password: string; nickName: string }) {
+    return request({
+        url: Api.USER_REGISTER,
+        method: 'post',
+        data
+    })
+}

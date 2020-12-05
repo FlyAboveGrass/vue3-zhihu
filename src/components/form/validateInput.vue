@@ -12,12 +12,10 @@
 <script lang="ts">
 import { reactive, defineComponent, PropType, onMounted, computed } from 'vue'
 import {emitter, validateFunc} from './validate-form.vue'
+import { RuleProp } from '@/interface/form'
 
 const emailReg = /^[a-zA-Z0-9_-]+@[a-zA-z0-9_-]+(\.[a-zA-Z0-9-_]+)+$/
-export interface RuleProp {
-    type: 'required' | 'email' | 'number';
-    message: string;
-}
+
 export default defineComponent ({
     data () {
         return {
@@ -64,6 +62,8 @@ export default defineComponent ({
                     case 'email':
                         validate = emailReg.test(inputRef.value)
                         break
+                    case 'custom':
+                        validate = rule.validator ? rule.validator() : false
                 }
                 if (!validate) {
                     inputRef.message = rule.message

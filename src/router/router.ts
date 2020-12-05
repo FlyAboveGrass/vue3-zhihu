@@ -11,6 +11,10 @@ const routes: Array<RouteRecordRaw> = [
         component: () => import('@/views/user/login.vue')
     },
     {
+        path: '/registry',
+        component: () => import('@/views/user/registry.vue')
+    },
+    {
         path: '/column/:id',
         component: () => import('@/views/column/column-detail.vue')
     },
