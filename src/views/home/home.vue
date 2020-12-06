@@ -9,6 +9,7 @@
         <div class="column-list">
             <h4 class="font-weight-bold text-center mb-4">发现精彩</h4>
             <column-list :list="colList"></column-list>
+            <button type="button" v-if="!loadAllCol" class="btn btn-primary my-3" @click="loadMore()">加载更多</button>
         </div>
         
     </div>
@@ -19,6 +20,8 @@ import { computed, defineComponent, onMounted, reactive } from 'vue'
 import ColumnList from '@/components/ColumnList.vue'
 import  { IColumnProps } from '@/interface/column.ts'
 import store from '@/store/store'
+import { useStore } from 'vuex'
+import { PageProps } from '@/interface'
 export default defineComponent ({
     props: {
     },
@@ -26,26 +29,31 @@ export default defineComponent ({
         ColumnList
     },
     setup() {
+        const store = useStore()
         const addArticlePng = require('@/assets/imgs/write.svg')
-        const page = reactive({
-            pageNum: 1,
+
+        const page: PageProps = {
+            currentPage: 1,
             pageSize: 5
-        })
-        const list: Array<IColumnProps> = [
-            { _id: '1', title: 'aaa', description: 'delights' },
-            { _id: '2', title: 'aaa', description: 'delights' },
-            { _id: '3', title: 'aaa', description: 'delights' },
-            { _id: '4', title: 'aaa', description: 'delights' }
-        ]
+        }
         const colList = computed(() => store.state.columnList)
+        const loadAllCol = computed(() => {
+            return store.state.columnLength === colList.value.length
+        })
+
+        const loadMore = () => {
+            page.currentPage ++;
+            store.dispatch('loadMoreColumn', page)
+        }
 
         onMounted(() => {
             store.dispatch('getColumnList', page)
         })
         return {
             addArticlePng,
-            list,
-            colList
+            colList,
+            loadMore,
+            loadAllCol
         }
     }
 })

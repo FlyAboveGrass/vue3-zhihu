@@ -13,6 +13,7 @@ export interface StoreProps {
     userToken: string;
     columnList: Array<IColumnProps>; // IColumnProps[]
     columnDetail: Array<IColumnDetailProps>;
+    columnLength: number;
 }
 
 export default createStore<StoreProps>({
@@ -27,6 +28,7 @@ export default createStore<StoreProps>({
         },
         userToken: '',
         columnList: [],
+        columnLength: 0,
         columnDetail: []
     },
     mutations: {
@@ -66,7 +68,13 @@ export default createStore<StoreProps>({
         // 获取专栏列表， 参数使用了参数解构的方式获得对应的参数
         async getColumnList({ commit, state }, {currentPage = 1, pageSize = 5 }: PageProps) {
             const result = await getColumnList(currentPage, pageSize)
+            state.columnLength = result.count;
             commit('setColumnList', result.list)
+        },
+        async loadMoreColumn({commit, state}, {currentPage = 1, pageSize = 5 }: PageProps){
+            const result = await getColumnList(currentPage, pageSize)
+            commit('setColumnList', state.columnList.concat(result.list))
+            return 
         },
         async getArticleList({commit}, {columnId = '', currentPage = 1, pageSize = 5 }) {
             if(columnId) {
