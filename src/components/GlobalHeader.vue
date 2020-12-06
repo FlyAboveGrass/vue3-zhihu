@@ -10,8 +10,8 @@
 
         
         <v-menu v-else :title="userInfo.nickName">
-            <dropdown-item><router-link tag="a" :to="`/column/${userInfo.columnId}`" class="dropdown-item">我的文章</router-link></dropdown-item>
-            <dropdown-item><router-link tag="a" :to="`/column/${userInfo.columnId}`" class="dropdown-item">创作中心</router-link></dropdown-item>
+            <dropdown-item><router-link tag="a" :to="`/column/${userInfo.column}`" class="dropdown-item">我的文章</router-link></dropdown-item>
+            <dropdown-item><router-link tag="a" :to="`/create`" class="dropdown-item">创作中心</router-link></dropdown-item>
             <dropdown-item><a class="dropdown-item" @click="logOut()">退出登录</a></dropdown-item>
         </v-menu>
     </nav>

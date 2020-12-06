@@ -5,6 +5,7 @@ import { getArticleList, getColumnList } from '@/api/column'
 import { PageProps } from '@/interface'
 import { checkLogin, userLogin } from '@/api/user'
 import { resolveComponent } from 'vue'
+import { useRouter } from 'vue-router'
 
 export interface StoreProps {
     isLoading: boolean;
@@ -85,6 +86,17 @@ export default createStore<StoreProps>({
                 return true
             }
             return false
+        },
+        async checkLogin({commit}){
+            const currentUser: IUserProps = await checkLogin()
+            if(currentUser) {
+                commit('setUserInfo', Object.assign(currentUser, { isLogin: true}))
+                return true
+            }else{
+                const router = useRouter()
+                router.push('/login')
+                return false;
+            }
         }
     }
 })

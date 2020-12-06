@@ -1,5 +1,6 @@
 import { createRouter, createWebHashHistory, RouteRecordRaw } from 'vue-router'
-import { useStore } from 'vuex'
+import store from '@/store/store'
+import $message from '@/components/message/createMessage'
 
 const routes: Array<RouteRecordRaw> = [
     {
@@ -36,10 +37,38 @@ const router = createRouter({
     routes
 })
 
-// const store = useStore()
-// // 路由导航守卫
-// router.beforeEach((to, from, next) => {
-//     console.log('to', to)
-// })
+
+// 路由导航守卫
+router.beforeEach((to, from, next) => {
+    console.log('to', to)
+
+    // 进入登录不需要校验
+    if(to.path === '/login'){
+        console.log('file: router.ts ~ line 46 ~ router.beforeEach ~ to.path === /login')
+        next()
+        return ;
+    }
+
+    // 没有token需要先登录
+    const token = localStorage.getItem('zhihu-token')
+    if(token) {
+        store.dispatch('checkLogin').then((result) => {
+            if(result){
+                next()
+                return ;
+            }else {
+                $message('您尚未登录')
+                next('/login')
+                return 
+            }
+        })
+    } else {
+        $message('您尚未登录')
+        next('/login')
+        return 
+    }
+
+    next()
+})
 
 export default router

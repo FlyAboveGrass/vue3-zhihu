@@ -1,7 +1,7 @@
 import { createApp } from 'vue'
 import Message from './message.vue'
 
-export default function $message(message: string, type?: string, timeout = 100000) {
+export default function $message(message: string, type?: string, timeout = 2000) {
     console.log('file: createMessage.ts ~ line 20 ~ $message ~ message', message);
     const messageInstance = createApp(Message, {
         message,
