@@ -1,7 +1,7 @@
 import { onMounted, onUnmounted, ref, Ref } from 'vue'
 
 export default function isClickOutside(elemenRef: Ref<null | HTMLElement>){
-    const isOutside = ref(true)
+    const isOutside = ref(false)
     const  handler = (e: MouseEvent) => {
         if (elemenRef.value) {
             // 1、contains方法  2、e.target是一个事件目标，必须使用类型断言转变成 HTMLElement

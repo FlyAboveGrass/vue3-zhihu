@@ -44,7 +44,6 @@ router.beforeEach((to, from, next) => {
 
     // 进入登录不需要校验
     if(to.path === '/login'){
-        console.log('file: router.ts ~ line 46 ~ router.beforeEach ~ to.path === /login')
         next()
         return ;
     }

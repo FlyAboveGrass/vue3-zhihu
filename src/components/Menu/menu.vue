@@ -3,7 +3,7 @@
     <button @click="showMenuItem()" class="btn btn-outline-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
       {{title}}
     </button>
-    <ul class="dropdown-menu" :class="{ 'show': !dropItemVisible }" aria-labelledby="dropdownMenuButton">
+    <ul class="dropdown-menu" :class="{ 'show': dropItemVisible }" aria-labelledby="dropdownMenuButton">
       <slot></slot>
     </ul>
   </div>
@@ -34,15 +34,17 @@
 
       // watch只能检测值的变化，不变化的时候不会触发。但是应该每一个点击都要向外发出一个是否是外部点击的值，不管有没有变化
       watch(toggleMenuItem, () => {
-        console.log('dfkhaskldjfhlksadjfh', toggleMenuItem);
-        dropItemVisible.value =  toggleMenuItem.value
-      })
+        if(toggleMenuItem.value === true){
+          toggleMenuItem.value = false
+          dropItemVisible.value = false
+        }
+      })  
+        
 
       return {
         dropItemVisible,
         dropdown,
-        showMenuItem,
-        toggleMenuItem
+        showMenuItem
       }
     }
   })
