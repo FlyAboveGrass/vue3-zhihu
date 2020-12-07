@@ -35,6 +35,7 @@ import ValidateForm from '@/components/form/validate-form.vue'
 import { useRouter } from 'vue-router'
 import { useStore } from 'vuex'
 import $message from '@/components/message/createMessage'
+import { RuleProp } from '@/interface/form'
 
 export default defineComponent ({
     props: {
@@ -50,7 +51,11 @@ export default defineComponent ({
 
         const router = useRouter()
         const store = useStore()
-        const email = reactive({
+        const email = reactive<{
+            label: string;
+            value: string;
+            rules: RuleProp[];
+        }>({
             label: '邮箱',
             value: '',
             rules: [
@@ -58,7 +63,11 @@ export default defineComponent ({
                 { type: 'email', message: '邮箱格式不正确' }
             ]
         })
-        const password = reactive({
+        const password = reactive<{
+            label: string;
+            value: string;
+            rules: RuleProp[];
+        }>({
             label: '密码',
             value: '',
             rules: [
@@ -69,7 +78,6 @@ export default defineComponent ({
         const validateForm = (result = false) => {
             console.log('validate login result', result)
             if (!result) {
-                alert('校验失败')
                 return 
             }
             store.dispatch('userLogin', {

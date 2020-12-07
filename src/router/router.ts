@@ -40,10 +40,8 @@ const router = createRouter({
 
 // 路由导航守卫
 router.beforeEach((to, from, next) => {
-    console.log('to', to)
-
-    // 进入登录不需要校验
-    if(to.path === '/login'){
+    // 进入登录注册不需要校验
+    if(to.path === '/login' || to.path === '/registry'){
         next()
         return ;
     }

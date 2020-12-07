@@ -10,7 +10,6 @@
 </template>
 
 <script lang="ts">
-import createElement from '@/hooks/createElement'
 import { computed, defineComponent, PropType, ref } from 'vue'
 
 type MessageType = 'success' | 'danger' | 'warning' | 'info'
@@ -27,7 +26,6 @@ export default defineComponent ({
         }
     },
     setup(props) {
-        const messageContainer = createElement('div', 'message', document.body)
         const messageType = computed(() => {
             return 'alert-' + props.type
         })

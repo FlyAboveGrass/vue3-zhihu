@@ -1,3 +1,4 @@
+import $message from '@/components/message/createMessage';
 import { IUserProps } from '@/interface/user';
 import Api from './api';
 import request from './request';

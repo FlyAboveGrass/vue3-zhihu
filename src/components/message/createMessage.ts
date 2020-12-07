@@ -1,8 +1,8 @@
 import { createApp } from 'vue'
 import Message from './message.vue'
 
-export default function $message(message: string, type?: string, timeout = 2000) {
-    console.log('file: createMessage.ts ~ line 20 ~ $message ~ message', message);
+type MessageType = 'success' | 'danger' | 'warning' | 'info'
+export default function $message(message: string, type?: MessageType, timeout = 2000) {
     const messageInstance = createApp(Message, {
         message,
         type
@@ -12,9 +12,11 @@ export default function $message(message: string, type?: string, timeout = 2000)
     document.body.appendChild(messageBox)
     messageInstance.mount(messageBox)
 
-    setTimeout(()=>{
-        messageInstance.unmount(messageBox)
-        document.body.removeChild(messageBox)
+    setTimeout(() => {
+        console.log('messageBox message', messageBox, messageInstance)
+        if(messageBox){
+            messageInstance.unmount(messageBox)
+            document.body.removeChild(messageBox)
+        }
     }, timeout)
-
 }

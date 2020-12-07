@@ -1,5 +1,6 @@
 import axios from 'axios'
 import store from '@/store/store'
+import $message from '@/components/message/createMessage'
 
 
 // 接口校验码
@@ -39,11 +40,12 @@ request.interceptors.response.use(
     if (data.code === 0) {
       return data.data
     } else {
-    //   $message(data.error, 'danger')
+      $message(data.error, 'danger')
       return Promise.reject(data.error)
     }
   },
-  (error: any) => {
+  (error: {code: number; error: string; response?: any}) => {
+    console.log('file: request.ts ~ line 48 ~ error', error);
     const { status, data } = error.response
     let message = data.error
 
@@ -51,8 +53,8 @@ request.interceptors.response.use(
       message = data.detail[0].message
     }
 
-    store.commit('setIsLoading', false)
-    // $message(message, 'danger')
+    store.commit('setLoading', false)
+    $message(message, 'danger')
 
     return Promise.reject(message)
   }
