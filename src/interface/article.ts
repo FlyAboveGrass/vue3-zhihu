@@ -12,3 +12,8 @@ export interface IArticleDetail {
     content: string
     createdAt: string
 }
+
+export interface IUploadProps {
+    _id: string
+    url: string
+}

@@ -13,7 +13,6 @@ export default function $message(message: string, type?: MessageType, timeout = 
     messageInstance.mount(messageBox)
 
     setTimeout(() => {
-        console.log('messageBox message', messageBox, messageInstance)
         if(messageBox){
             messageInstance.unmount(messageBox)
             document.body.removeChild(messageBox)
