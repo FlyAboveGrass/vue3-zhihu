@@ -68,7 +68,7 @@ export default defineComponent ({
                 context.emit('upload-error', e)
             } finally{
                 if (fileInput.value) {
-                    // fileInput.value.value = ''
+                    fileInput.value.value = ''
                 }
             }
         }
