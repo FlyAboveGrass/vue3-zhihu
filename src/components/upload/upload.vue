@@ -7,7 +7,7 @@
             <slot name="loading" v-if="status === 'loading'">
                 <button type="button" class="btn btn-primary">正在上传</button>
             </slot>
-            <slot name="success" v-if="status === 'success'">
+            <slot name="success" v-if="status === 'success'" :uploadedData="uploadedData">
                 <button type="button" class="btn btn-primary">上传成功</button>
             </slot>
             <slot name="error" v-if="status === 'error'">
@@ -21,9 +21,10 @@
 <script lang="ts">
 import { defineComponent, PropType, ref } from 'vue'
 import $message from '../message/createMessage'
-import { uploadFile } from '@/api/article'    
-type UploadStatus = 'ready' | 'loading' | 'success' | 'error' 
-type CheckFunction = (file: File) => boolean
+import { uploadFile } from '@/api/article'
+import { IUploadProps } from '@/interface/article'
+export type UploadStatus = 'ready' | 'loading' | 'success' | 'error' 
+export type CheckFunction = (file: File) => boolean
 export default defineComponent ({
     props: {
         // 可以再上传时进行一些检查操作
@@ -38,6 +39,7 @@ export default defineComponent ({
         const triggerUpload = () => {
             fileInput.value && fileInput.value.click()
         }
+        const uploadedData = ref<null | IUploadProps>(null)
         const uploadChange = async (event: Event) => {
             // 要把event转化成html元素
             const currentTarget = event.target as HTMLInputElement
@@ -61,6 +63,7 @@ export default defineComponent ({
                 const uploadResult = await uploadFile(fileData)
                 status.value = 'success'
                 console.log('uploadResult', uploadResult)
+                uploadedData.value = uploadResult
                 context.emit('upload-success', uploadResult)
             } catch(e){
                 status.value = 'error'
@@ -68,7 +71,7 @@ export default defineComponent ({
                 context.emit('upload-error', e)
             } finally{
                 if (fileInput.value) {
-                    fileInput.value.value = ''
+                    // fileInput.value.value = ''
                 }
             }
         }
@@ -76,7 +79,8 @@ export default defineComponent ({
             fileInput,
             triggerUpload,
             status,
-            uploadChange
+            uploadChange,
+            uploadedData
         }
     }
 })

@@ -11,9 +11,10 @@ export default function $message(message: string, type?: MessageType, timeout = 
     const messageBox = document.createElement('div')
     document.body.appendChild(messageBox)
     messageInstance.mount(messageBox)
-
+    console.log('aaa')
     setTimeout(() => {
         if(messageBox){
+            console.log('messageBox', messageBox, messageInstance)
             messageInstance.unmount(messageBox)
             document.body.removeChild(messageBox)
         }
