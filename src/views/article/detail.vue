@@ -62,7 +62,6 @@ export default defineComponent ({
 
         onMounted(async () => {
             detail.value = await getArticle(route.params.id as string)
-            console.log('file: detail.vue ~ line 30 ~ onMounted ~ detail.value', detail.value);
         })
         return {
             defaultAvatar,

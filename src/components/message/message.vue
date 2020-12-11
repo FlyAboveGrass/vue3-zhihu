@@ -1,5 +1,5 @@
 <template>
-    <teleport to="#message">
+    <teleport to="#zhihuMessage">
         <div v-if="visible" class="alert alert-dismissible fade show message" :class="messageType" role="alert">
             <span>{{message}}</span>
             <button type="button" class="close border-0 bg-transparent float-right" data-dismiss="alert" aria-label="Close" @click="closeMessage()">

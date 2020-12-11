@@ -26,38 +26,53 @@
                     <div class="card bg-light d-flex justify-content-center align-items-center  header-img">上传失败，点击再次上传</div>
                 </template>
             </v-upload>
-            <form>
-                <div class="form-group row py-4">
-                    <label class="col-sm-1 col-form-label">标题:</label>
-                    <div class="col-sm-8">
-                        <input type="text" class="form-control" placeholder="请输入文章标题">
+            
+            <validate-form ref="articleRef" @form-submit="submitArticle">
+                <template #default>
+                    <div class="form-group row py-4">
+                        <div class="col-sm-8">
+                            <validate-input v-model="form.title" :rules="form.titleRules" label="文章标题"></validate-input>
+                        </div>
+                        <div class="col-sm-2 offset-sm-2">
+                            <button @click="triggerSubmitArticle" type="button"  class="btn btn-primary px-4">发表</button>
+                        </div>
                     </div>
-                    <div class="col-sm-2 offset-sm-1">
-                        <button class="btn btn-primary px-4">发表</button>
-                    </div>
-                </div>
-                <div class="form-group row py-4">
-                    <h4 class="py-3">文章内容:</h4>
-                    <textarea :rows="10" class="form-control" aria-describedby="emailHelp"></textarea>
-                </div>
-            </form>
+                    
+                    <validate-input v-model="form.content" type="textarea" rows="10" :rules="form.contentRules" label="文章内容" labelPosition="top"></validate-input>
+                </template>
+                <template #submit>
+
+                </template>
+            </validate-form>
     </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive } from 'vue'
+import { defineComponent, reactive, ref } from 'vue'
 import VUpload from '@/components/upload/upload.vue'
 import { IUploadProps } from '@/interface/article'
 import $message from '@/components/message/createMessage'
+import ValidateForm from '@/components/form/validate-form.vue'
+import ValidateInput from '@/components/form/validateInput.vue'
 import { RuleProp } from '@/interface/form'
 import { CheckFunction } from '@/components/upload/upload.vue'
+import checkUploadFile from '@/components/upload/uploadCheck.ts'
+import { addArticle } from '@/api/article'
+import { useStore } from 'vuex'
+import { IUserProps } from '@/interface/user'
+import { useRouter } from 'vue-router'
 export default defineComponent ({
     props: {
     },
     components: {
-        VUpload
+        VUpload,
+        ValidateForm,
+        ValidateInput
     },
-    setup() {
+    setup(props, context) {
+        const store = useStore()
+        const router = useRouter()
+        const user: IUserProps = store.state.userInfo
         const form = reactive<{
             title: string;
             content: string;
@@ -72,12 +87,10 @@ export default defineComponent ({
             contentRules: [{ type: 'required', message: '文章详情不能为空' }]
         })
         const beforeUpload: CheckFunction = (file: File) => {
-            console.log('file: create.vue ~ line 74 ~ beforeUpload ~ file', file);
-            if(file.size > 1 * 1024 * 1024) {
-                $message('照片大小不能超过1M', 'danger')
-                return false
-            }
-            return true
+            return checkUploadFile(file, {
+                size: 1,
+                format: ['image/jepg', 'image/png', 'image/jpg']
+            })
         }
         const handleUploadedImg = (file: IUploadProps) => {
             if(!file._id) {
@@ -86,11 +99,41 @@ export default defineComponent ({
             }
             form.imageId = file._id
         }
+        const submitArticle = async (valid: boolean) => {
+            if(!valid) {
+                $message('表单验证有误，请重新验证')
+                return ;
+            }
+            try {
+                const addArticleResult = await addArticle({
+                    title: form.title,
+                    content: form.content,
+                    column: user.column,
+                    author: user._id
+                })
+                $message('文章添加成功', 'success')
+                router.push({
+                    path: `/article/detail/${store.state.userInfo.column}`
+                })
+            } catch(e) {
+                $message(e.toString(), 'danger')
+            }
+            
+        }
+
+        const articleRef = ref<any>(null)
+        const triggerSubmitArticle = () => {
+            // 手动触发里面的事件
+            articleRef.value.submitForm()
+        }
 
         return {
             form,
             handleUploadedImg,
-            beforeUpload
+            beforeUpload,
+            submitArticle,
+            articleRef,
+            triggerSubmitArticle
         }
     }
 })

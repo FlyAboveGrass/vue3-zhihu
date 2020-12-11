@@ -24,7 +24,7 @@ export default createStore<StoreProps>({
             isLogin: false,
             nickName: '',
             _id: '',
-            columnId: ''
+            column: ''
         },
         userToken: '',
         columnList: [],
@@ -59,7 +59,7 @@ export default createStore<StoreProps>({
                 isLogin: false,
                 nickName: '',
                 _id: '',
-                columnId: ''
+                column: ''
             }
             localStorage.removeItem('zhihu-token')
         }
@@ -76,15 +76,14 @@ export default createStore<StoreProps>({
             commit('setColumnList', state.columnList.concat(result.list))
             return 
         },
-        async getArticleList({commit}, {columnId = '', currentPage = 1, pageSize = 5 }) {
-            if(columnId) {
-                const result = await getArticleList(columnId, currentPage, pageSize)
+        async getArticleList({commit}, {column = '', currentPage = 1, pageSize = 5 }) {
+            if(column) {
+                const result = await getArticleList(column, currentPage, pageSize)
                 commit('setColumnDetail', result.list)
             }
         },
         async userLogin({commit}, {email, password}) {
             const { token } = await userLogin({email, password})
-            console.log('token', token)
             localStorage.setItem('zhihu-token', token)
             commit('setToken', token)
 

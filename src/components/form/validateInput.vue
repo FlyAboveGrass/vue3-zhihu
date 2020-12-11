@@ -1,11 +1,12 @@
 <template>
     <div class="form-group mb-4 row">
-        <label class="col-sm-3 col-form-label">{{label}}:</label>
+        <label class="col-sm-3 col-form-label text-left text-indent-1">{{label}}:</label>
         <!-- 外部传入的属性将通过 $attrs 默认的传递到input -->
-        <div class="col-sm-9">
-            <input :type="type" v-bind="$attrs" class="form-control" :class="[inputRef.error ? 'is-invalid' : '']" v-model="inputRef.value" @blur="validateInput">
+        <div :class="labelPosition === 'left' ? 'col-sm-9' : 'col-sm-12'">
+            <input v-if="type !== 'textarea'" :type="type" v-bind="$attrs" class="form-control" :class="[inputRef.error ? 'is-invalid' : '']" v-model="inputRef.value" @blur="validateInput">
+            <textarea v-if="type == 'textarea'" :type="type" v-bind="$attrs" class="form-control" :class="[inputRef.error ? 'is-invalid' : '']" v-model="inputRef.value" @blur="validateInput" />
+            <div v-if="inputRef.error" class="invalid-feedback">{{inputRef.message}}</div>
         </div>
-        <div v-if="inputRef.error" class="invalid-feedback">{{inputRef.message}}</div>
     </div>
 </template>
 
@@ -35,7 +36,12 @@ export default defineComponent ({
         modelValue: {
             requied: true,
             type: String
-        },  
+        },
+        labelPosition: {
+            type: String as PropType<'top' | 'left'>,
+            required: false,
+            default: 'left'
+        },
         rules: Array as PropType<RuleProp[]>
     },
     setup (props, context) {
@@ -85,5 +91,11 @@ export default defineComponent ({
 </script>
 
 <style scoped lang="less">
-
+.text-indent-1 {
+    text-indent: 1em;
+}
+.invalid-feedback{
+    display: block;
+    text-align: left;
+}
 </style>

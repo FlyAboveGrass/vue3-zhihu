@@ -45,7 +45,6 @@ request.interceptors.response.use(
     }
   },
   (error: {code: number; error: string; response?: any}) => {
-    console.log('file: request.ts ~ line 48 ~ error', error);
     const { status, data } = error.response
     let message = data.error
 

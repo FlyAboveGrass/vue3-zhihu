@@ -115,7 +115,6 @@ export default defineComponent({
                     password: form.password,
                     nickName: form.nickName
                 })
-                console.log('registry result', result);
                 $message('注册成功')
                 // router.push('/login')    
             }

@@ -40,16 +40,13 @@ export default defineComponent ({
             currentPage: 1,
             pageSize: 5
         }
-        console.log('file: column-detail.vue ~ line 25 ~ setup ~ route', route);
         const userInfo = computed(() => store.state.userInfo)
         const currentUser = store.state.columnList.find((item: any) => item._id === route.params.id)
-        console.log('store.state.columnList', store.state.columnList)
-        console.log('file: column-detail.vue ~ line 32 ~ setup ~ currentUser', currentUser);
 
         const articleList = computed(() => store.state.columnDetail)
         onBeforeMount(() => {
             store.dispatch('getArticleList', {
-                columnId: route.params.id,
+                column: route.params.id,
                 currentPage: page.currentPage,
                 pageSize: page.pageSize
             })

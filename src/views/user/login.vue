@@ -76,7 +76,6 @@ export default defineComponent ({
         })
         
         const validateForm = (result = false) => {
-            console.log('validate login result', result)
             if (!result) {
                 return 
             }

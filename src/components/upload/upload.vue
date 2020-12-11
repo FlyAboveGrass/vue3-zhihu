@@ -34,7 +34,8 @@ export default defineComponent ({
     },
     emits: ['upload-success', 'upload-error'],
     setup(props, context) {
-        const fileInput = ref<null | HTMLElement>(null)
+        // 一定是HTMLInputElement， 不然后面读取fileInput.value.value会报错，说HtmlElement没有value这个值
+        const fileInput = ref<null | HTMLInputElement>(null)
         const status = ref<UploadStatus>('ready')
         const triggerUpload = () => {
             fileInput.value && fileInput.value.click()
@@ -62,7 +63,6 @@ export default defineComponent ({
             try{
                 const uploadResult = await uploadFile(fileData)
                 status.value = 'success'
-                console.log('uploadResult', uploadResult)
                 uploadedData.value = uploadResult
                 context.emit('upload-success', uploadResult)
             } catch(e){
@@ -71,7 +71,7 @@ export default defineComponent ({
                 context.emit('upload-error', e)
             } finally{
                 if (fileInput.value) {
-                    // fileInput.value.value = ''
+                    fileInput.value.value = ''
                 }
             }
         }

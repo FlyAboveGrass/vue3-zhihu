@@ -14,9 +14,9 @@ export function getColumnList(currentPage: number, pageSize: number) {
 }
 
 // 获取专栏文章
-export function getArticleList(columnId: string, currentPage = 1, pageSize = 5) {
+export function getArticleList(column: string, currentPage = 1, pageSize = 5) {
     return request({
-        url: `${Api.COLUMN_LIST}/${columnId}/posts`,
+        url: `${Api.COLUMN_LIST}/${column}/posts`,
         method: 'get',
         params: {
             currentPage,
