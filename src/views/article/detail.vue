@@ -12,7 +12,7 @@
         <h1 class="my-5">{{detail && detail.title}}</h1>
         <div class="row py-2 border-bottom border-top">
             <div class="col-6 d-flex align-items-center user-info">
-                <img :src="user.avatar && user.avatar.url && defaultAvatar" alt="" class="rounded-circle mx-4">
+                <img :src="(user.avatar && user.avatar.url) || defaultAvatar" alt="" class="rounded-circle mx-4">
                 <div class="user text-left">
                     <h5>{{detail ? detail.author.nickName : ''}}</h5>
                     <p>{{detail? detail.author.description : ''}}</p>
@@ -62,6 +62,7 @@ export default defineComponent ({
 
         onMounted(async () => {
             detail.value = await getArticle(route.params.id as string)
+            console.log('file: detail.vue ~ line 65 ~ onMounted ~ detail.value', detail.value);
         })
         return {
             defaultAvatar,

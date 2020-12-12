@@ -92,7 +92,7 @@ export default defineComponent ({
 
 <style scoped lang="less">
 .text-indent-1 {
-    text-indent: 1em;
+    // text-indent: 1em;
 }
 .invalid-feedback{
     display: block;

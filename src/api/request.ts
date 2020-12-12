@@ -4,7 +4,7 @@ import $message from '@/components/message/createMessage'
 
 
 // 接口校验码
-const icode = '48C5907EDC0D3D8C'
+const icode = 'E219C6BE1D9368AF' // 48C5907EDC0D3D8C
 
 const request = axios.create({
   timeout: 5000
@@ -40,7 +40,7 @@ request.interceptors.response.use(
     if (data.code === 0) {
       return data.data
     } else {
-      $message(data.error, 'danger')
+      $message('error：' + data.error, 'danger')
       return Promise.reject(data.error)
     }
   },

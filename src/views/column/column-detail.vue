@@ -2,11 +2,11 @@
     <div class="container w-75 mx-auto">
         <div class="column-header py-4 row border-bottom">
             <div class="col-3">
-                <img class="rounded-circle rounded-circle border border-light w-50" :src="currentUser && currentUser.avatar && currentUser.avatar.url">
+                <img class="rounded-circle rounded-circle border border-light w-50" :src="(currentUser && currentUser.avatar && currentUser.avatar.url) || defaultAvatar">
             </div>
             <div class="col-9">
-                <h2 class="pt-2">{{currentUser && currentUser.title}}</h2>
-                <p class="text-muted">{{currentUser && currentUser.description}}</p>
+                <h2 class="pt-2">{{currentUser && currentUser.title || userInfo.nickName}}</h2>
+                <p class="text-muted">{{(currentUser && currentUser.description) || '这个人很懒，还没有写专栏介绍哦'}}</p>
             </div>
         </div>
         <article v-for="item of articleList" :key="item._id" class="card mt-4 shadow-sm text-left">
@@ -36,12 +36,14 @@ export default defineComponent ({
     setup() {
         const store = useStore()
         const route = useRoute()
+        const defaultAvatar = require('@/assets/imgs/avatar.png')
         const page = {
             currentPage: 1,
             pageSize: 5
         }
         const userInfo = computed(() => store.state.userInfo)
         const currentUser = store.state.columnList.find((item: any) => item._id === route.params.id)
+        console.log('file: column-detail.vue ~ line 46 ~ setup ~ currentUser', store.state.columnList, currentUser);
 
         const articleList = computed(() => store.state.columnDetail)
         onBeforeMount(() => {
@@ -53,6 +55,7 @@ export default defineComponent ({
         })
         return {
             userInfo,
+            defaultAvatar,
             currentUser,
             articleList
         }
